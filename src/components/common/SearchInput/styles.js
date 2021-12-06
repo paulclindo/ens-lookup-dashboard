@@ -8,14 +8,14 @@ export const WrapperInput = styled.div`
   padding: 0 15px 0 10px;
   background-color: #0b0c0f;
   box-shadow: inset 0 0 0 1px #272d33;
-  color: var(--secondary-text);
+  color: var(--text-secondary);
   ${sm} {
     width: 300px;
   }
 `;
 
 export const Input = styled.input`
-  color: var(--primary-text);
+  color: var(--text-primary);
   width: 100%;
   height: 100%;
   border: unset;

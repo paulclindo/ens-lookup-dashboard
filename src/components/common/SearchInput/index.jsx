@@ -14,9 +14,9 @@ export default function SearchInput(props) {
     <WrapperInput onClick={handleFocus}>
       <SearchIcon />
       <VisuallyHidden>
-        <label htmlFor="search">Search by address, name</label>
+        <label htmlFor="search-input">Search by ETH address, name</label>
       </VisuallyHidden>
-      <Input type="text" ref={inputRef} placeholder="Search by address, name" id="search" {...props} />
+      <Input type="text" ref={inputRef} placeholder="Search by ETH address, name" id="search-input" {...props} />
     </WrapperInput>
   );
 }

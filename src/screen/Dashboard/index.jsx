@@ -4,10 +4,10 @@ import DomainCard from "../../components/common/DomainCard";
 import Layout from "../../components/layout";
 import SearchInput from "../../components/common/SearchInput";
 import { Header, TitlePage, List, ListItem, LoadMoreButton } from "./styles";
-import { formatBigIntToDate } from "../../utils/formatDate";
-import { truncateString } from "../../utils/truncate";
+import { useDebounce } from "../../utils/useDebounce";
 import { ReactComponent as Loader } from "../../assets/icons/loader.svg";
-import { useDebounce } from "../../utils/debounce";
+import { friendlyEpochTimeToDate } from "../../utils/formatDate";
+import { LIMIT_PER_PAGE } from "../../utils/constants";
 
 const GET_DOMAINS = gql`
   query GetDomains($first: Int, $skip: Int, $search: String) {
@@ -36,7 +36,6 @@ const GET_DOMAINS = gql`
 `;
 
 export default function Dashboard() {
-  const limit = 4;
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(false);
   const debouncedSetQuery = useDebounce(setSearchValue, 800);
@@ -47,7 +46,7 @@ export default function Dashboard() {
     error,
     fetchMore,
   } = useQuery(GET_DOMAINS, {
-    variables: { first: limit, skip: 0, search: searchValue },
+    variables: { first: LIMIT_PER_PAGE, skip: 0, search: searchValue },
   });
   const isLoading = loading || isLoadingRequest;
   const registrations = data?.registrations;
@@ -67,33 +66,38 @@ export default function Dashboard() {
   return (
     <Layout>
       <Header>
-        <TitlePage>Dashboard ESN Lookup</TitlePage>
+        <div>
+          <TitlePage>Dashboard ENS Lookup</TitlePage>
+          <p>Sorted by recent registrations</p>
+        </div>
         <SearchInput onChange={handleChangeSearch} />
       </Header>
-      <List>
-        {error ? <div>Could not find any data, try again later!</div> : null}
-        {isLoading ? (
-          <Loader />
-        ) : registrations.length ? (
-          registrations.map((registration) => (
+      {error ? <div>Could not find any data, try again later!</div> : null}
+      {isLoading ? (
+        <Loader aria-label="Loading" />
+      ) : registrations.length ? (
+        <List>
+          {registrations.map((registration) => (
             <li key={registration.id}>
               <DomainCard
                 name={registration.domain.name}
-                registrantAddress={truncateString(registration.registrant.id)}
-                ethAddress={truncateString(registration.domain.labelhash)}
-                registrationDate={formatBigIntToDate(registration.registrationDate)}
-                expiryDate={formatBigIntToDate(registration.expiryDate)}
+                registrantAddress={registration.registrant.id}
+                ethAddress={registration.domain.labelhash}
+                registrationDate={friendlyEpochTimeToDate(registration.registrationDate)}
+                expiryDate={friendlyEpochTimeToDate(registration.expiryDate)}
               />
             </li>
-          ))
-        ) : !registrations.length ? (
-          <p>No results found</p>
-        ) : null}
+          ))}
+        </List>
+      ) : !registrations.length ? (
+        <p>No results found</p>
+      ) : null}
 
-        {registrations?.length && !isLoading ? (
-          <LoadMoreButton onClick={handleLoadMore}>Load More</LoadMoreButton>
-        ) : null}
-      </List>
+      {registrations?.length && !isLoading ? (
+        <LoadMoreButton type="button" onClick={handleLoadMore}>
+          Load More
+        </LoadMoreButton>
+      ) : null}
     </Layout>
   );
 }

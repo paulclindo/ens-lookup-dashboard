@@ -28,21 +28,20 @@ export const globalStyles = css`
   }
 
   :root {
-    --primary-color: hsl(242 100% 61%);
-    --secondary-color: hsl(210 14% 11%);
-    --neutral-color: hsl(0 0% 0%);
-    --primary-text: hsl(210 22% 96%);
-    --secondary-text: hsl(205 11% 53%);
+    --color-primary: hsl(242 100% 61%);
+    --color-secondary: hsl(210 14% 11%);
+    --color-neutral: hsl(0 0% 0%);
+    --text-primary: hsl(210 22% 96%);
+    --text-secondary: hsl(205 11% 53%);
     --container-width: 1200px;
-    --loadMore-height: 40px;
-    --topbar-height: 80px;
+    --box-shadow-sm: inset 0 -1px 0 hsl(210deg 13% 18%);
   }
 
   body {
     margin: 0;
     font-family: "Nunito Sans", sans-serif;
-    background: var(--neutral-color);
-    color: var(--primary-text);
+    background: var(--color-neutral);
+    color: var(--text-primary);
   }
 
   button {

@@ -9,7 +9,7 @@ export const Card = styled.div`
   padding: 10px 24px;
   background-color: #0b0c0f;
   box-shadow: inset 0 0 0 1px #272d33;
-  color: var(--primary-text);
+  color: var(--text-primary);
   flex-direction: column;
   ${sm} {
     gap: 30px;
@@ -40,10 +40,14 @@ export const DescriptionList = styled.dl`
 
 export const Label = styled.dt`
   font-size: 0.875rem;
-  color: var(--secondary-text);
+  color: var(--text-secondary);
 `;
 export const Value = styled.dd`
-  color: var(--primary-text);
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-primary);
   margin-left: 0;
   + dt {
     margin-top: 8px;

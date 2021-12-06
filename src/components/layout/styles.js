@@ -2,8 +2,8 @@ import styled from "@emotion/styled";
 import { ReactComponent as LogoIcon } from "../../assets/logo.svg";
 import { sm } from "../../styles/breakpoints";
 
-export const Background = styled.header`
-  background: #000;
+export const Background = styled.div`
+  background: var(--color-neutral);
   min-height: 100vh;
 `;
 export const Logo = styled(LogoIcon)`
@@ -13,14 +13,14 @@ export const Logo = styled(LogoIcon)`
   }
 `;
 export const WrapperHeader = styled.header`
-  box-shadow: inset 0 -1px 0 hsl(210deg 13% 18%);
+  box-shadow: var(--box-shadow-sm);
 `;
 export const Header = styled.div`
   max-width: var(--container-width);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: var(--topbar-height);
+  height: 80px;
   margin: 0 auto;
   padding: 0 24px;
 `;
