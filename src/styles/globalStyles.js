@@ -27,11 +27,22 @@ export const globalStyles = css`
     box-sizing: border-box;
   }
 
+  :root {
+    --primary-color: hsl(242 100% 61%);
+    --secondary-color: hsl(210 14% 11%);
+    --neutral-color: hsl(0 0% 0%);
+    --primary-text: hsl(210 22% 96%);
+    --secondary-text: hsl(205 11% 53%);
+    --container-width: 1200px;
+    --loadMore-height: 40px;
+    --topbar-height: 80px;
+  }
+
   body {
     margin: 0;
     font-family: "Nunito Sans", sans-serif;
-    background: hsl(0, 0%, 100%);
-    color: hsl(200, 15%, 8%);
+    background: var(--neutral-color);
+    color: var(--primary-text);
   }
 
   button {
