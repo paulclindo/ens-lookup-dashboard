@@ -1,5 +1,5 @@
-import { useQuery, gql } from "@apollo/client";
-import { useState } from "react";
+import { useQuery } from "@apollo/client";
+import { useEffect, useState } from "react";
 import DomainCard from "../../components/common/DomainCard";
 import Layout from "../../components/layout";
 import SearchInput from "../../components/common/SearchInput";
@@ -7,33 +7,8 @@ import { Header, TitlePage, List, ListItem, LoadMoreButton } from "./styles";
 import { useDebounce } from "../../utils/useDebounce";
 import { ReactComponent as Loader } from "../../assets/icons/loader.svg";
 import { friendlyEpochTimeToDate } from "../../utils/formatDate";
+import { GET_DOMAINS } from "../../graphql/queries";
 import { LIMIT_PER_PAGE } from "../../utils/constants";
-
-const GET_DOMAINS = gql`
-  query GetDomains($first: Int, $skip: Int, $search: String) {
-    registrations(
-      where: { labelName_not: null, labelName_contains: $search }
-      orderBy: registrationDate
-      orderDirection: desc
-      first: $first
-      skip: $skip
-    ) {
-      id
-      expiryDate
-      registrationDate
-      labelName
-      registrant {
-        id
-      }
-      domain {
-        name
-        id
-        labelhash
-        labelName
-      }
-    }
-  }
-`;
 
 export default function Dashboard() {
   const [searchValue, setSearchValue] = useState("");
@@ -49,13 +24,13 @@ export default function Dashboard() {
     variables: { first: LIMIT_PER_PAGE, skip: 0, search: searchValue },
   });
   const isLoading = loading || isLoadingRequest;
-  const registrations = data?.registrations;
+  const registrations = data?.registrations ?? [];
 
   const handleChangeSearch = (e) => {
     setLoading(true);
     debouncedSetQuery(() => {
       setLoading(false);
-      return e.target?.value;
+      return e.target.value;
     });
   };
 
@@ -82,7 +57,7 @@ export default function Dashboard() {
               <DomainCard
                 name={registration.domain.name}
                 registrantAddress={registration.registrant.id}
-                ethAddress={registration.domain.labelhash}
+                ethAddress={registration.domain.resolvedAddress?.id}
                 registrationDate={friendlyEpochTimeToDate(registration.registrationDate)}
                 expiryDate={friendlyEpochTimeToDate(registration.expiryDate)}
               />

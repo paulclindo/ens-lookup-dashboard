@@ -1,6 +1,6 @@
 import { Card, Name, DescriptionList, Label, Value } from "./styles";
 
-function DomainCard({ name, registrantAddress, ethAddress, registrationDate, expiryDate }) {
+export default function DomainCard({ name, registrantAddress, ethAddress, registrationDate, expiryDate }) {
   return (
     <Card>
       <Name>{name ?? "-"}</Name>
@@ -21,5 +21,3 @@ function DomainCard({ name, registrantAddress, ethAddress, registrationDate, exp
     </Card>
   );
 }
-
-export default DomainCard;
