@@ -1,9 +1,12 @@
 import { Card, Name, DescriptionList, Label, Value } from "./styles";
+import { useReverseDomain } from "../../../utils/useReverseDomain";
 
 export default function DomainCard({ name, registrantAddress, ethAddress, registrationDate, expiryDate }) {
+  const domainName = useReverseDomain(ethAddress, name);
+
   return (
     <Card>
-      <Name>{name ?? "-"}</Name>
+      <Name>{domainName ?? "-"}</Name>
       <DescriptionList>
         <div>
           <Label>Registrant Address</Label>
